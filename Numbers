@@ -1,0 +1,78 @@
+#lang racket
+
+;;;;;; Numbers to digits, vice versa;;;;;;;;;;;;;;;
+
+;;Numeric to Alpha Function
+(define (spellNum x)
+  (cond
+    ((zero? x) '())
+    ((= (digit x) 0) (append (spellNum (floor (/ x 10))) '(zero)))
+    ((= (digit x) 1) (append (spellNum (floor (/ x 10))) '(one)))
+    ((= (digit x) 2) (append (spellNum (floor (/ x 10))) '(two)))
+    ((= (digit x) 3) (append (spellNum (floor (/ x 10))) '(three)))
+    ((= (digit x) 4) (append (spellNum (floor (/ x 10))) '(four)))
+    ((= (digit x) 5) (append (spellNum (floor (/ x 10))) '(five)))
+    ((= (digit x) 6) (append (spellNum (floor (/ x 10))) '(six)))
+    ((= (digit x) 7) (append (spellNum (floor (/ x 10))) '(seven)))
+    ((= (digit x) 8) (append (spellNum (floor (/ x 10))) '(eight)))
+    ((= (digit x) 9) (append (spellNum (floor (/ x 10))) '(nine)))
+  )
+)
+
+;;Get each digit
+(define (digit x)
+  (remainder x 10))
+
+;;Alpha to Numeric Function
+(define (numberIt L1)
+ (cond
+   ((null? L1) '())
+    ((eqv? (car L1) `zero) (cons '0 (numberIt (cdr L1))))
+    ((eqv? (car L1) `one) (cons '1 (numberIt (cdr L1))))
+    ((eqv? (car L1) `two) (cons '2 (numberIt (cdr L1))))
+    ((eqv? (car L1) `three) (cons '3 (numberIt (cdr L1))))
+    ((eqv? (car L1) `four) (cons '4 (numberIt (cdr L1))))
+    ((eqv? (car L1) `five) (cons '5 (numberIt (cdr L1))))
+    ((eqv? (car L1) `six) (cons '6 (numberIt (cdr L1))))
+    ((eqv? (car L1) `seven) (cons '7 (numberIt (cdr L1))))
+    ((eqv? (car L1) `eight) (cons '8 (numberIt (cdr L1))))
+    ((eqv? (car L1) `nine) (cons '9 (numberIt (cdr L1))))
+  ) 
+)
+
+;;Adds number list, returns number
+(define (adder L1)
+  (cond
+	 ((null? L1) 0)
+	 ((+ (* (car L1) (tens(- (length L1) 1))) (adder(cdr L1))))
+  )
+)
+
+;;Multiply digit to get power of ten 
+(define (tens x)
+  (cond
+    ((zero? x) 1)
+    ((* 10 (tens (- x 1))))
+   )
+ )
+
+;;Add Function
+(define (addEm N1 N2)
+ (cond
+   ;;If both inputs are just numbers
+   ((and (number? N1) (number? N2)) 
+    (+ N1 N2))
+   
+   ;;If the first input is a list
+   ((and(not(number? N1)) (number? N2))
+    (+ (adder(numberIt N1)) N2))
+    
+   ;;If the second input is a list
+   ((and(number? N1) (not(number? N2)))
+    (+ N1 (adder(numberIt N2))))
+    
+   ;;If both inputs are a list
+   ((and(not(number? N2)) (not(number? N2)))
+   (spellNum(+ (adder(numberIt N1)) (adder(numberIt N2)))))
+  )
+)
