@@ -1,6 +1,12 @@
 #lang racket
 
 ;;;;;; Numbers to digits, vice versa;;;;;;;;;;;;;;;
+;;;;;;;Call by (spellNum 123)
+;;;;;;;Call by (numberIt '(one two three))
+;;;;;;;Call by (addEm 123 456)
+;;;;;;;Call by (spellNum '(one two three) '(four five six))
+
+
 
 ;;Numeric to Alpha Function
 (define (spellNum x)
